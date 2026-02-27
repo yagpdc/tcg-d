@@ -7,7 +7,7 @@ const STORAGE_KEY = 'driva-tcg-player'
 
 function defaultState(): PlayerState {
   return {
-    packCount: 1,
+    packCount: MAX_PACKS,
     lastPackTick: Date.now(),
     coins: 0,
     backpackSlots: [],
@@ -30,7 +30,7 @@ function migratePackFields(data: Record<string, unknown>): { packCount: number; 
     return { packCount, lastPackTick }
   }
 
-  return { packCount: 1, lastPackTick: Date.now() }
+  return { packCount: MAX_PACKS, lastPackTick: Date.now() }
 }
 
 function migrateState(data: Record<string, unknown>): PlayerState {

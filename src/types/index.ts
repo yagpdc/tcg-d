@@ -1,6 +1,6 @@
 export type CardType = 'colaborador' | 'produto'
 
-export type Rarity = 'comum' | 'incomum' | 'raro' | 'epico' | 'lendario'
+export type Rarity = 'comum' | 'regular' | 'incomum' | 'raro' | 'epico' | 'lendario' | 'prismatico' | 'supremo'
 
 export type Tier = 'prata' | 'ouro' | 'platina' | 'diamante'
 
@@ -31,22 +31,28 @@ export interface AddCardsOptions {
 }
 
 // Rarity
-export const RARITY_ORDER: Rarity[] = ['comum', 'incomum', 'raro', 'epico', 'lendario']
+export const RARITY_ORDER: Rarity[] = ['comum', 'regular', 'incomum', 'raro', 'epico', 'lendario', 'prismatico', 'supremo']
 
 export const RARITY_LABELS: Record<Rarity, string> = {
   comum: 'Comum',
+  regular: 'Regular',
   incomum: 'Incomum',
   raro: 'Raro',
   epico: 'Épico',
   lendario: 'Lendário',
+  prismatico: 'Prismático',
+  supremo: 'Supremo',
 }
 
 export const RARITY_COLORS: Record<Rarity, string> = {
   comum: 'gray',
+  regular: 'slate',
   incomum: 'green',
   raro: 'blue',
   epico: 'purple',
   lendario: 'amber',
+  prismatico: 'lavender',
+  supremo: 'orange',
 }
 
 // Tier

@@ -1,10 +1,30 @@
 import { useState, useMemo } from 'react'
-import type { BackpackSlotData } from '../types'
+import type { Card, Tier, BackpackSlotData } from '../types'
 import { BACKPACK_COLS, CARDS_PER_PAGE, RARITY_ORDER, TIER_ORDER } from '../types'
 import { cardCatalog } from '../data/cards'
 import { getNextTier } from '../lib/fusion'
 import { BackpackSlot } from './BackpackSlot'
+import { CardDisplay } from './CardDisplay'
 import { FusionModal } from './FusionModal'
+
+function getDetailDropShadow(rarity: string): string {
+  switch (rarity) {
+    case 'prismatico':
+      return '0 0 40px rgba(196,181,253,0.5), 0 0 80px rgba(167,139,250,0.3), 0 25px 50px rgba(0,0,0,0.6)'
+    case 'supremo':
+      return '0 0 50px rgba(240,127,45,0.7), 0 0 100px rgba(255,215,0,0.4), 0 25px 50px rgba(0,0,0,0.6)'
+    case 'lendario':
+      return '0 0 30px rgba(251,191,36,0.5), 0 25px 50px rgba(0,0,0,0.6)'
+    case 'epico':
+      return '0 0 30px rgba(139,92,246,0.4), 0 25px 50px rgba(0,0,0,0.6)'
+    case 'raro':
+      return '0 0 25px rgba(96,165,250,0.4), 0 25px 50px rgba(0,0,0,0.6)'
+    case 'incomum':
+      return '0 0 20px rgba(74,222,128,0.3), 0 25px 50px rgba(0,0,0,0.6)'
+    default:
+      return '0 0 15px rgba(156,163,175,0.3), 0 25px 50px rgba(0,0,0,0.6)'
+  }
+}
 
 interface BackpackProps {
   backpackSlots: BackpackSlotData[]
@@ -19,6 +39,7 @@ interface SortedCard {
 export function Backpack({ backpackSlots, onFuse }: BackpackProps) {
   const [page, setPage] = useState(0)
   const [showFusionModal, setShowFusionModal] = useState(false)
+  const [detailCard, setDetailCard] = useState<{ card: Card; tier: Tier } | null>(null)
 
   // Sort: rarity desc, then group same cardId, then tier desc
   const sorted: SortedCard[] = useMemo(() => {
@@ -120,7 +141,9 @@ export function Backpack({ backpackSlots, onFuse }: BackpackProps) {
               card={card}
               tier={slot.tier}
               selected={false}
-              onClick={() => {}}
+              onClick={() => {
+                if (card) setDetailCard({ card, tier: slot.tier })
+              }}
             />
           )
         })}
@@ -130,6 +153,30 @@ export function Backpack({ backpackSlots, onFuse }: BackpackProps) {
         <p className="py-8 text-center text-sm text-gray-600">
           Nenhuma carta ainda. Abra packs para começar!
         </p>
+      )}
+
+      {/* Card Detail Modal */}
+      {detailCard && (
+        <div
+          className="animate-modal-backdrop fixed inset-0 z-50 flex items-center justify-center"
+          style={{ backgroundColor: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(4px)' }}
+          onClick={() => setDetailCard(null)}
+        >
+          <div
+            className="animate-card-popup"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div
+              style={{
+                transform: 'scale(2.5)',
+                boxShadow: getDetailDropShadow(detailCard.card.rarity),
+                borderRadius: '12px',
+              }}
+            >
+              <CardDisplay card={detailCard.card} tier={detailCard.tier} />
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Fusion Modal */}

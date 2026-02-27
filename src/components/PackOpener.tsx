@@ -7,6 +7,25 @@ import { cardCatalog } from "../data/cards";
 import { CardDisplay } from "./CardDisplay";
 import { PackVisual } from "./PackVisual";
 
+function getRarityDropShadow(rarity: string): string {
+  switch (rarity) {
+    case "prismatico":
+      return "drop-shadow(0 0 40px rgba(196,181,253,0.5)) drop-shadow(0 0 80px rgba(167,139,250,0.3)) drop-shadow(0 25px 50px rgba(0,0,0,0.6))";
+    case "supremo":
+      return "drop-shadow(0 0 50px rgba(240,127,45,0.7)) drop-shadow(0 0 100px rgba(255,215,0,0.4)) drop-shadow(0 25px 50px rgba(0,0,0,0.6))";
+    case "lendario":
+      return "drop-shadow(0 0 30px rgba(251,191,36,0.5)) drop-shadow(0 25px 50px rgba(0,0,0,0.6))";
+    case "epico":
+      return "drop-shadow(0 0 30px rgba(139,92,246,0.4)) drop-shadow(0 25px 50px rgba(0,0,0,0.6))";
+    case "raro":
+      return "drop-shadow(0 0 25px rgba(96,165,250,0.4)) drop-shadow(0 25px 50px rgba(0,0,0,0.6))";
+    case "incomum":
+      return "drop-shadow(0 0 20px rgba(74,222,128,0.3)) drop-shadow(0 25px 50px rgba(0,0,0,0.6))";
+    default:
+      return "drop-shadow(0 0 15px rgba(156,163,175,0.3)) drop-shadow(0 25px 50px rgba(0,0,0,0.6))";
+  }
+}
+
 type Phase =
   | "idle"
   | "selecting"
@@ -383,7 +402,7 @@ export function PackOpener({
               className="relative h-full w-full"
               style={{ transformStyle: "preserve-3d" }}
             >
-              {cards.map((card, i) => {
+              {cards.map((_card, i) => {
                 const state = cardStates[i];
                 if (state !== "down") return null;
 
@@ -536,18 +555,58 @@ export function PackOpener({
             state === "opening" ? (
               <div
                 key={`modal-${i}`}
-                className="fixed inset-0 z-50 flex cursor-pointer items-center justify-center"
+                className={`fixed inset-0 z-50 flex cursor-pointer items-center justify-center ${
+                  cards[i].rarity === "supremo"
+                    ? "animate-supremo-shake"
+                    : ""
+                }`}
                 onClick={() => handleDismissCard(i)}
               >
                 {/* Backdrop */}
                 <div className="animate-modal-backdrop absolute inset-0 bg-black/70" />
+
+                {/* Prismatic screen effect */}
+                {cards[i].rarity === "prismatico" && (
+                  <>
+                    <div className="animate-prismatic-screen absolute inset-0 z-20" />
+                    <div
+                      className="animate-prismatic-rays absolute z-20"
+                      style={{
+                        width: "150vmax",
+                        height: "150vmax",
+                        left: "50%",
+                        top: "50%",
+                        marginLeft: "-75vmax",
+                        marginTop: "-75vmax",
+                      }}
+                    />
+                  </>
+                )}
+
+                {/* Supremo screen effect */}
+                {cards[i].rarity === "supremo" && (
+                  <>
+                    <div className="animate-supremo-screen absolute inset-0 z-20" />
+                    <div
+                      className="animate-supremo-rays absolute z-20"
+                      style={{
+                        width: "200vmax",
+                        height: "200vmax",
+                        left: "50%",
+                        top: "50%",
+                        marginLeft: "-100vmax",
+                        marginTop: "-100vmax",
+                      }}
+                    />
+                  </>
+                )}
+
                 {/* Card popup */}
-                <div className="animate-card-popup relative z-10 cursor-pointer">
+                <div className="animate-card-popup relative z-30 cursor-pointer">
                   <div
                     className="rounded-xl"
                     style={{
-                      filter:
-                        "drop-shadow(0 0 30px rgba(139, 92, 246, 0.4)) drop-shadow(0 25px 50px rgba(0,0,0,0.6))",
+                      filter: getRarityDropShadow(cards[i].rarity),
                     }}
                   >
                     <CardDisplay card={cards[i]} tier="prata" />

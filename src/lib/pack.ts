@@ -2,11 +2,14 @@ import type { Card, Rarity } from '../types'
 import { CARDS_PER_PACK } from '../types'
 
 const RARITY_WEIGHTS: Record<Rarity, number> = {
-  comum: 50,
-  incomum: 25,
-  raro: 15,
-  epico: 8,
-  lendario: 2,
+  comum: 35,
+  regular: 25,
+  incomum: 18,
+  raro: 11,
+  epico: 5,
+  lendario: 3.5,
+  prismatico: 1,
+  supremo: 0.5,
 }
 
 function rollRarity(): Rarity {

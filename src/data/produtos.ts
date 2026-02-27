@@ -1,7 +1,6 @@
 import type { Card } from '../types'
 
 export const produtos: Card[] = [
-  // === COMUNS ===
   {
     id: 'prod-cafe',
     name: 'Café da Copa',
@@ -30,45 +29,67 @@ export const produtos: Card[] = [
     type: 'produto',
     rarity: 'comum',
   },
-
-  // === INCOMUNS ===
   {
     id: 'prod-dashboard',
     name: 'Dashboard Analytics',
     description: 'Gráficos que fazem qualquer investidor sorrir.',
     type: 'produto',
-    rarity: 'incomum',
+    rarity: 'comum',
   },
   {
     id: 'prod-api',
     name: 'API Gateway',
     description: 'O porteiro digital. Nada entra ou sai sem passar por ele.',
     type: 'produto',
-    rarity: 'incomum',
+    rarity: 'comum',
   },
-
-  // === RAROS ===
   {
     id: 'prod-ia',
     name: 'Motor de IA',
     description: 'O cérebro por trás das predições. Machine learning em estado puro.',
     type: 'produto',
-    rarity: 'raro',
+    rarity: 'comum',
   },
   {
     id: 'prod-core',
     name: 'Plataforma Core',
     description: 'O coração da Driva. Tudo passa por aqui.',
     type: 'produto',
-    rarity: 'raro',
+    rarity: 'comum',
   },
-
-  // === ÉPICOS ===
   {
     id: 'prod-algoritmo',
     name: 'Algoritmo Proprietário',
     description: 'O segredo da Driva. Quem tem, não conta. Quem não tem, quer.',
     type: 'produto',
-    rarity: 'epico',
+    rarity: 'comum',
+  },
+
+  // === RARO ===
+  {
+    id: 'prod-x-coxinha',
+    name: 'X-Coxinha',
+    description: 'Lanche · Driva',
+    type: 'produto',
+    rarity: 'raro',
+    // image: xCoxinha,
+  },
+
+  // === INCOMUM ===
+  {
+    id: 'prod-escadinha',
+    name: 'Restaurante Escadinha',
+    description: 'Restaurante · Driva',
+    type: 'produto',
+    rarity: 'incomum',
+    // image: escadinha,
+  },
+  {
+    id: 'prod-utfpr',
+    name: 'UTFPR',
+    description: 'Universidade · Educação',
+    type: 'produto',
+    rarity: 'incomum',
+    // image: utfpr,
   },
 ]
