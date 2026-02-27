@@ -1,31 +1,54 @@
-function App() {
-  return (
-    <div className="min-h-screen bg-gray-950 text-white">
-      <header className="border-b border-gray-800 px-6 py-4">
-        <div className="mx-auto flex max-w-7xl items-center justify-between">
-          <h1 className="text-2xl font-bold tracking-tight">
-            <span className="text-indigo-400">Driva</span> TCG
-          </h1>
-          <nav className="flex gap-6 text-sm text-gray-400">
-            <a href="#" className="hover:text-white transition-colors">Coleção</a>
-            <a href="#" className="hover:text-white transition-colors">Decks</a>
-            <a href="#" className="hover:text-white transition-colors">Batalha</a>
-          </nav>
-        </div>
-      </header>
+import { useState } from "react";
+import { Header, type Page } from "./components/Header";
+import { PackOpener } from "./components/PackOpener";
+import { Backpack } from "./components/Backpack";
+import { Shop } from "./components/Shop";
+import { usePlayerState } from "./hooks/usePlayerState";
 
-      <main className="mx-auto max-w-7xl px-6 py-12">
-        <div className="text-center">
-          <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">
-            Bem-vindo ao <span className="text-indigo-400">Driva TCG</span>
-          </h2>
-          <p className="mt-4 text-lg text-gray-400">
-            O Trading Card Game da Driva. Colecione, monte decks e batalhe!
-          </p>
-        </div>
+function App() {
+  const [page, setPage] = useState<Page>("packs");
+  const { state, addCards, fuseSlots, buyPack, spendCoins } = usePlayerState();
+
+  return (
+    <div className="min-h-screen bg-[#0a1929] text-white dot-grid">
+      <Header currentPage={page} onNavigate={setPage} coins={state.coins} />
+
+      <main className="mx-auto max-w-7xl  py-6">
+        {page === "packs" && (
+          <div className="flex flex-col items-start gap-6 pt-12">
+            <PackOpener
+              packCount={state.packCount}
+              lastPackTick={state.lastPackTick}
+              onPackOpened={addCards}
+              onNavigate={setPage}
+            />
+          </div>
+        )}
+
+        {page === "mochila" && (
+          <div>
+            <h2 className="mb-6 text-3xl font-bold tracking-tight">Mochila</h2>
+            <Backpack
+              backpackSlots={state.backpackSlots}
+              onFuse={fuseSlots}
+            />
+          </div>
+        )}
+
+        {page === "loja" && (
+          <div>
+            <h2 className="mb-6 text-3xl font-bold tracking-tight">Loja</h2>
+            <Shop
+              coins={state.coins}
+              onBuyPack={buyPack}
+              onSpendCoins={spendCoins}
+              onPackOpened={addCards}
+            />
+          </div>
+        )}
       </main>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
